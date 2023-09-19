@@ -4,7 +4,7 @@ public interface StringList {
 // Добавление элемента.
 // Вернуть добавленный элемент
 // в качестве результата выполнения.
-    String add(String item);
+String add(String item);
 
             // Добавление элемента
             // на определенную позицию списка.
@@ -13,7 +13,9 @@ public interface StringList {
             // выбросить исключение.
             // Вернуть добавленный элемент
             // в качестве результата выполнения.
-    String add(int index, String item);
+    String
+ add(int index, String
+ item);
 
             // Установить элемент
             // на определенную позицию,
@@ -22,39 +24,48 @@ public interface StringList {
             // если индекс больше
             // фактического количества элементов
             // или выходит за пределы массива.
-    String set(int index, String item);
+    String
+ set(int index, String
+ item);
 
             // Удаление элемента.
             // Вернуть удаленный элемент
             // или исключение, если подобный
             // элемент отсутствует в списке.
-    String remove(String item);
+    String
+ remove(String
+ item);
 
             // Удаление элемента по индексу.
             // Вернуть удаленный элемент
             // или исключение, если подобный
             // элемент отсутствует в списке.
-    String remove(int index);
+    String
+ remove(int index);
 
             // Проверка на существование элемента.
             // Вернуть true/false;
-    boolean contains(String item);
+    boolean contains(String
+ item);
 
             // Поиск элемента.
             // Вернуть индекс элемента
             // или -1 в случае отсутствия.
-    int indexOf(String item);
+    int indexOf(String
+ item);
 
             // Поиск элемента с конца.
             // Вернуть индекс элемента
             // или -1 в случае отсутствия.
-    int lastIndexOf(String item);
+    int lastIndexOf(String
+ item);
 
             // Получить элемент по индексу.
             // Вернуть элемент или исключение,
             // если выходит за рамки фактического
             // количества элементов.
-    String get(int index);
+    String
+ get(int index);
 
             // Сравнить текущий список с другим.
             // Вернуть true/false или исключение,
@@ -75,5 +86,6 @@ public interface StringList {
             // Создать новый массив
             // из строк в списке
             // и вернуть его.
-    String[] toArray();
+    String
+[] toArray();
     }
