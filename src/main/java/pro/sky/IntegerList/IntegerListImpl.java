@@ -1,5 +1,6 @@
 package pro.sky.IntegerList;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class IntegerListImpl implements IntegerList {
@@ -33,7 +34,7 @@ public class IntegerListImpl implements IntegerList {
         }
         checkNotNull(item);
         checkNonNegativeIndex(index);
-        checkIndex(index, false);
+        growIfNeeded(index, false);
         System.arraycopy(data, index, data, index + 1, capacity - index);
         data[index] = item;
         capacity++;
@@ -44,7 +45,7 @@ public class IntegerListImpl implements IntegerList {
     public Integer set(int index, Integer item) {
         checkNotNull(item);
         checkNonNegativeIndex(index);
-        checkIndex(index, true);
+        growIfNeeded(index, true);
         return data[index] = item;
     }
 
@@ -60,7 +61,7 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public Integer remove(int index) {
         checkNonNegativeIndex(index);
-        checkIndex(index, true);
+        growIfNeeded(index, true);
         Integer removed = data[index];
         System.arraycopy(data, index + 1, data, index, capacity - 1 - index);
         data[--capacity] = null;
@@ -119,7 +120,7 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public Integer get(int index) {
         checkNonNegativeIndex(index);
-        checkIndex(index, true);
+        growIfNeeded(index, true);
         return data[index];
     }
 
@@ -162,15 +163,36 @@ public class IntegerListImpl implements IntegerList {
     }
 
     private void sortInsertion(Integer[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            int temp = arr[i];
-            int j = i;
-            while (j > 0 && arr[j - 1] >= temp) {
-                arr[j] = arr[j - 1];
-                j--;
-            }
-            arr[j] = temp;
+        quickSort(arr, 0,arr.length - 1);
+    }
+
+    private void quickSort(Integer[] arr,int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
         }
+    }
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+            }
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+    private static void swapElements(Integer[] arr, int i1, int i2) {
+        int temp = arr[i1];
+        arr[i1] = arr[i2];
+        arr[i2] = temp;
     }
 
     private void checkNotNull(Integer item) {
@@ -181,14 +203,18 @@ public class IntegerListImpl implements IntegerList {
 
     private void checkNonNegativeIndex(int index) {
         if (index < 0) {
-            throw new IllegalArgumentException("Индекс должен быть неотрицательный!");
+            grow();
         }
     }
 
-    private void checkIndex(int index, boolean includeEquality) {
+    private void growIfNeeded(int index, boolean includeEquality) {
         boolean expression = includeEquality ? index >= capacity : index > capacity;
         if (expression) {
             throw new IllegalArgumentException("Индекс: " + index + ", Размер: " + capacity);
         }
+    }
+
+    private void grow() {
+        data=Arrays.copyOf(data, capacity+capacity/2);
     }
 }
